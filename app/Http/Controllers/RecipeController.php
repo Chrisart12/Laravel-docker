@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recipe;
+use App\Models\Ingredient;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller
@@ -24,7 +25,9 @@ class RecipeController extends Controller
      */
     public function create()
     {
-        return view('recipes.create');
+        $ingredients = Ingredient::all();
+        
+        return view('recipes.create', compact('ingredients'));
     }
 
     /**
@@ -35,7 +38,15 @@ class RecipeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        // dd($request->title);
+        $recipe = auth()->user()->recipes()->create([
+            'title' => $request->title
+        ]);
+
+        $recipe->ingredients()->attach($request->ingredients);
+
+        return redirect()->back();
     }
 
     /**

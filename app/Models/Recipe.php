@@ -13,6 +13,10 @@ class Recipe extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title'
+    ];
+
     /**
      * Get the user that owns the Recipe
      *
